@@ -11,7 +11,7 @@ License: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
 >
 > 🇺🇸 **The complete English version is available immediately after the Portuguese section.**
 
-Backend de catálogo, estoque e pedidos com consistência transacional. **v0.1.0 — Backend Foundation:** 21 testes aprovados e execução Docker verificada. Consulte a [auditoria](docs/audit.md) e o [relatório de implementação](docs/implementation-report.md). [Release v0.1.0](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.0).
+Backend de catálogo, estoque e pedidos com consistência transacional. **v0.1.0 — Backend Foundation:** 22 testes aprovados e execução Docker verificada. Consulte a [auditoria](docs/audit.md) e o [relatório de implementação](docs/implementation-report.md). [Release v0.1.0](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.0).
 
 ## Sumário
 
@@ -186,7 +186,7 @@ Somente BRL; sem pagamentos, frete, impostos ou descontos. Não há frontend, mi
 <a id="overview"></a>
 ### Overview
 
-OrderSphere manages a product catalog, inventory and authenticated users' orders. Purchases preserve historical values and consume inventory in one transaction. Two simultaneous buyers cannot both purchase the same remaining unit. All 21 tests passed and Docker execution was verified; see the [audit](docs/audit.md) and [implementation report](docs/implementation-report.md). [v0.1.0 release](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.0).
+OrderSphere manages a product catalog, inventory and authenticated users' orders. Purchases preserve historical values and consume inventory in one transaction. Two simultaneous buyers cannot both purchase the same remaining unit. All 22 tests passed and Docker execution was verified; see the [audit](docs/audit.md) and [implementation report](docs/implementation-report.md). [v0.1.0 release](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.0).
 
 <a id="purpose"></a>
 ### Purpose

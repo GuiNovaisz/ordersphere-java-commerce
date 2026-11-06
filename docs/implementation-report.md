@@ -9,7 +9,7 @@
 | Endpoints | Cadastro/login/logout/identidade/CSRF; catálogo público; catálogo e estoque ADMIN; pedidos próprios. [Contratos e exemplos](api.md) |
 | Modelagem | AppUser, Product, Inventory, CustomerOrder e OrderItem; UUIDs, constraints e snapshots. [Migration V1](../src/main/resources/db/migration/V1__foundation.sql) |
 | Concorrência | UPDATE condicional, transação única e produtos em ordem UUID; cancelamento bloqueia o pedido. [ADR002](architecture/decisions/002-inventory-concurrency-strategy.md) |
-| Testes | 5 unitários + 16 integração; sem falhas, erros ou skips. [Relatórios](audit.md) |
+| Testes | 5 unitários + 17 integração; sem falhas, erros ou skips. [Relatórios](backend-foundation-final-audit.md) |
 | Teste concorrente | Duas compras HTTP sincronizadas para uma unidade: 201 + 409, um pedido, saldo 0. [BackendIT](../src/test/java/com/ordersphere/BackendIT.java) |
 | Segurança | BCrypt (cost 12), sessão HttpOnly, CSRF, RBAC, ownership, validação e rejeição de campos desconhecidos. [Estratégia](architecture/decisions/004-authentication-strategy.md) |
 | Docker | Multi-stage, Java 21, usuário sem root, Compose com PostgreSQL 17, rede/volume e health checks aprovados. [Operação](operations.md) |
@@ -33,7 +33,7 @@ Próxima evolução: planejar v0.2.0 com frontend consumindo a REST API existent
 | Endpoints | Registration/login/logout/identity/CSRF, public catalog, ADMIN management and owner-scoped orders. [API](api.md) |
 | Data model | AppUser, Product, Inventory, CustomerOrder and OrderItem with constraints and historical snapshots. [Migration](../src/main/resources/db/migration/V1__foundation.sql) |
 | Concurrency | Conditional atomic updates inside one transaction; stable UUID ordering; order-row locks for cancellation. [ADR002](architecture/decisions/002-inventory-concurrency-strategy.md) |
-| Tests | 5 unit and 16 integration tests, zero failures/errors/skips. [Evidence](audit.md) |
+| Tests | 5 unit and 17 integration tests, zero failures/errors/skips. [Evidence](backend-foundation-final-audit.md) |
 | Concurrent purchase test | Two synchronized HTTP purchases for one unit produce 201 + 409, one stored order and zero stock. [BackendIT](../src/test/java/com/ordersphere/BackendIT.java) |
 | Security | BCrypt (cost 12), HttpOnly sessions, CSRF, RBAC, ownership and strict request validation. [Authentication ADR](architecture/decisions/004-authentication-strategy.md) |
 | Docker | Java 21 multi-stage image, non-root user, PostgreSQL 17 Compose, network, volume and verified health checks. [Operations](operations.md) |
