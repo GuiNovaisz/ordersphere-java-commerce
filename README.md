@@ -6,7 +6,7 @@
 >
 > 🇺🇸 **The complete English version is available immediately after the Portuguese section.**
 
-Backend de catálogo, estoque e pedidos com consistência transacional. **v0.1.0 — Backend Foundation:** 21 testes aprovados e execução Docker verificada. Consulte a [auditoria](docs/audit.md) e o [relatório de implementação](docs/implementation-report.md). As notas da release estão preparadas; a tag ainda não foi publicada.
+Backend de catálogo, estoque e pedidos com consistência transacional. **v0.1.0 — Backend Foundation:** 21 testes aprovados e execução Docker verificada. Consulte a [auditoria](docs/audit.md) e o [relatório de implementação](docs/implementation-report.md). [Release v0.1.0](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.0).
 
 ## Sumário
 
@@ -164,7 +164,7 @@ Para build local, forneça `JDBC_DATABASE_URL`, `DB_USERNAME` e `DB_PASSWORD` ap
 - [ADR 004: autenticação por sessão](docs/architecture/decisions/004-authentication-strategy.md).
 - [API e exemplos](docs/api.md), [operação](docs/operations.md) e [auditoria](docs/audit.md).
 - [Conceitos com código real](docs/learning/concepts.md), [guia de entrevista](docs/learning/interview-guide.md) e [exercícios sem solução pronta](docs/learning/exercises.md).
-- [Notas bilíngues preparadas para v0.1.0](docs/release-notes-v0.1.0.md).
+- [Notas bilíngues da v0.1.0](docs/release-notes-v0.1.0.md).
 
 <a id="limitacoes"></a>
 ## Limitações
@@ -181,7 +181,7 @@ Somente BRL; sem pagamentos, frete, impostos ou descontos. Não há frontend, mi
 <a id="overview"></a>
 ### Overview
 
-OrderSphere manages a product catalog, inventory and authenticated users' orders. Purchases preserve historical values and consume inventory in one transaction. Two simultaneous buyers cannot both purchase the same remaining unit. All 21 tests passed and Docker execution was verified; see the [audit](docs/audit.md) and [implementation report](docs/implementation-report.md). Release notes are prepared; the tag has not been published.
+OrderSphere manages a product catalog, inventory and authenticated users' orders. Purchases preserve historical values and consume inventory in one transaction. Two simultaneous buyers cannot both purchase the same remaining unit. All 21 tests passed and Docker execution was verified; see the [audit](docs/audit.md) and [implementation report](docs/implementation-report.md). [v0.1.0 release](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.0).
 
 <a id="purpose"></a>
 ### Purpose
@@ -290,7 +290,7 @@ For a local Maven run, supply `JDBC_DATABASE_URL`, `DB_USERNAME` and `DB_PASSWOR
 - ADRs: [modular monolith](docs/architecture/decisions/001-modular-monolith.md), [inventory concurrency](docs/architecture/decisions/002-inventory-concurrency-strategy.md), [price snapshots](docs/architecture/decisions/003-order-price-snapshot.md), [session authentication](docs/architecture/decisions/004-authentication-strategy.md).
 - [API examples](docs/api.md), [operations](docs/operations.md), [audit](docs/audit.md).
 - [Concepts grounded in code](docs/learning/concepts.md), [interview guide](docs/learning/interview-guide.md), [exercises](docs/learning/exercises.md).
-- [Prepared bilingual v0.1.0 release notes](docs/release-notes-v0.1.0.md).
+- [Bilingual v0.1.0 release notes](docs/release-notes-v0.1.0.md).
 
 <a id="limitations"></a>
 ### Limitations

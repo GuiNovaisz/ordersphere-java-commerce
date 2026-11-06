@@ -26,7 +26,7 @@ A combinação gerenciada usa JUnit Jupiter 6.0.3. A tentativa de forçar JUnit5
 
 ### Critério de prontidão
 
-Build, banco, autenticação, RBAC, ownership, snapshots, atomicidade, teste concorrente, Docker e CI essenciais foram aprovados. A fundação backend está pronta para revisão de publicação da v0.1.0, respeitando as limitações documentadas. Repositório e push foram autorizados e executados; tag e GitHub Release permanecem sem publicação. Os containers exclusivos da auditoria foram encerrados; o volume foi preservado e serviços preexistentes não foram interrompidos. Secret scanning, proteção de push, alertas e atualizações de segurança Dependabot e canal privado de vulnerabilidades foram habilitados no repositório.
+Build, banco, autenticação, RBAC, ownership, snapshots, atomicidade, teste concorrente, Docker e CI essenciais foram aprovados. A fundação backend está pronta para revisão de publicação da v0.1.0, respeitando as limitações documentadas. Repositório e push foram autorizados e executados; publicação da tag e da GitHub Release v0.1.0 autorizada pelo proprietário. Os containers exclusivos da auditoria foram encerrados; o volume foi preservado e serviços preexistentes não foram interrompidos. Secret scanning, proteção de push, alertas e atualizações de segurança Dependabot e canal privado de vulnerabilidades foram habilitados no repositório.
 
 ## English
 
@@ -36,4 +36,4 @@ The clean build returned exit0: [5 unit tests](verification/unit-tests.txt) and 
 
 The multi-stage Java21 Docker image runs as a non-root user. A fresh Compose environment applied Flyway V1, passed both health checks, served Swagger/OpenAPI and passed the [full smoke flow](verification/compose-smoke.json). PostgreSQL has no published host port; the API binds to loopback. An occupied audit port was replaced without interrupting the existing service. Secrets remained outside Git. JUnit Jupiter6.0.3 is retained because forcing JUnit5.14.4 was incompatible with SpringExtension; the final compatible suite passed.
 
-The backend foundation is ready for release review within its documented limitations. Repository creation and push were authorized and completed; the tag and GitHub Release remain unpublished. Task-owned audit containers were stopped, with the volume preserved and preexisting services untouched. Repository secret scanning, push protection, Dependabot alerts/security updates and private vulnerability reporting were enabled.
+The backend foundation is ready for release review within its documented limitations. Repository creation and push were authorized and completed; the owner authorized publication of the v0.1.0 tag and GitHub Release. Task-owned audit containers were stopped, with the volume preserved and preexisting services untouched. Repository secret scanning, push protection, Dependabot alerts/security updates and private vulnerability reporting were enabled.

@@ -1,6 +1,6 @@
 # OrderSphere v0.1.0 — Backend Foundation
 
-**Preparação de release / Prepared release notes.** Publicação e tag dependem da auditoria e das autorizações aplicáveis. Consulte o [resultado real](audit.md); este documento não declara a release pronta.
+Notas oficiais da v0.1.0 / Official v0.1.0 release notes. Consulte a [auditoria](audit.md) e a [GitHub Release](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.0).
 
 ## 🇧🇷 Português
 
@@ -17,6 +17,8 @@ Java 21 e Spring Boot em monólito modular por domínio, PostgreSQL com Flyway e
 Spring Security, senha com hash BCrypt, cookie HttpOnly, CSRF para mutações, RBAC e isolamento de pedidos pelo usuário autenticado. Cadastro não aceita atribuição de ADMIN. Erros não expõem stack traces ou credenciais. Bootstrap administrativo é opcional e controlado por ambiente.
 
 ### Testes e execução
+
+Validação: 5 testes unitários e 16 de integração aprovados, sem falhas ou testes ignorados; PostgreSQL real e build Docker aprovados localmente e na CI. JUnit Jupiter 6 é a versão compatível gerenciada pelo Spring Boot atual.
 
 Testes unitários para regras e integração com PostgreSQL/Testcontainers para API, autorização, constraints, rollback, histórico e concorrência real. O cenário central exige uma compra aceita e uma rejeitada para uma unidade. A [auditoria](audit.md) contém o resultado executado. GitHub Actions executa o build verificável; não há deploy automático.
 
@@ -41,6 +43,8 @@ Java 21 and Spring Boot form a feature-oriented modular monolith with PostgreSQL
 Spring Security provides BCrypt password hashing, HttpOnly session cookies, CSRF protection, RBAC and owner-scoped order access. Registration cannot assign ADMIN. Errors avoid stack traces and credentials. Optional administrator bootstrap is environment-controlled.
 
 ### Testing and execution
+
+Validation: 5 unit and 16 integration tests passed without failures or skips; real PostgreSQL verification and Docker builds passed locally and in CI. JUnit Jupiter 6 is the compatible version managed by the current Spring Boot release.
 
 Unit tests target domain rules. PostgreSQL/Testcontainers integration tests target API, access control, constraints, rollback, snapshots and real concurrency. The central scenario requires one accepted purchase and one rejection for one unit. Consult the [audit](audit.md) for actual results. GitHub Actions performs verification without automatic deployment.
 

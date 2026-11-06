@@ -19,8 +19,8 @@
 | Branch | Desenvolvimento em `feature/backend-foundation`, integração local fast-forward em `main`; publicação em `origin/main`, sem force push |
 | Git status | Árvore limpa e sincronizada com `origin/main` na verificação final; `.env` e `target/` ignorados |
 | Limitações | BRL; sem pagamentos/frontend; sessões locais; POST de compra sem Idempotency-Key; rate limiting delegado ao proxy. JUnit 6 por compatibilidade comprovada do Spring atual |
-| Release notes | [v0.1.0 bilíngue preparada](release-notes-v0.1.0.md). Nenhuma tag ou GitHub Release publicada nesta entrega |
-| Prontidão | Backend local auditado; resultado de CI registrado na [auditoria](audit.md). Publicação de tag/release é uma ação separada |
+| Release notes | [v0.1.0 bilíngue](release-notes-v0.1.0.md). [GitHub Release v0.1.0](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.0) |
+| Prontidão | Backend local auditado; resultado de CI registrado na [auditoria](audit.md). Publicação da versão autorizada pelo proprietário |
 
 Próxima evolução: planejar v0.2.0 com frontend consumindo a REST API existente. Não foram introduzidos microsserviços ou dependências de frontend.
 
@@ -43,7 +43,7 @@ Próxima evolução: planejar v0.2.0 com frontend consumindo a REST API existent
 | Branch | Work on `feature/backend-foundation`, local fast-forward into `main`, pushed to `origin/main` without force |
 | Git status | Clean and synchronized with `origin/main` at final verification; local environment/build output ignored |
 | Limitations | BRL only; no payments/frontend; process-local sessions; purchase POST has no idempotency key; proxy rate limiting. JUnit 6 retained for verified Spring compatibility |
-| Release notes | [Prepared bilingual v0.1.0 notes](release-notes-v0.1.0.md); no tag or GitHub Release published |
-| Readiness | Local backend audit passed; see [audit](audit.md) for remote CI results. Tag/release publication remains a separate action |
+| Release notes | [Bilingual v0.1.0 notes](release-notes-v0.1.0.md); [v0.1.0 GitHub Release](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.0) |
+| Readiness | Local backend audit passed; see [audit](audit.md) for remote CI results. Version publication authorized by the owner |
 
 The next planned milestone is a v0.2.0 frontend using the existing REST contracts. No microservices or frontend dependencies were added.
