@@ -30,5 +30,3 @@ updates:
     ignore:
       - dependency-name: eclipse-temurin
         update-types: ['version-update:semver-major']
-      - dependency-name: maven
-        versions: ['*-eclipse-temurin-24*', '*-eclipse-temurin-25*', '*-eclipse-temurin-26*']
