@@ -17,7 +17,37 @@
 13. **Por que sessão em vez de JWT?** A sessão oferece logout imediato no backend único. JWT exigiria um contrato adicional para revogação/expiração. Em troca, sessões em memória se perdem ao reiniciar e precisam de armazenamento compartilhado para múltiplas réplicas.
 14. **Como evoluiria para microsserviços?** Primeiro mediria a necessidade e estabilizaria fronteiras e contratos. Separar estoque e pedidos eliminaria a transação local, exigindo decisões explícitas sobre reservas, mensagens, falhas e compensações. Não bastaria mover packages para repositórios diferentes.
 
-## English
+## Full Stack v0.2.0 — Português
+
+1. **Por que não JWT?** A API já usa sessão HttpOnly com logout no servidor. O frontend envia cookies e restaura perfil com `/auth/me`; criar bearer token paralelo duplicaria o modelo de segurança sem necessidade.
+2. **Como CSRF funciona?** O cliente obtém token/headerName em `/auth/csrf`, usa o header em mutações e renova após login. Cookie é automático; o header demonstra uma requisição que conhece o token. HttpOnly não impede um site externo de tentar enviar um formulário.
+3. **Por que TanStack Query?** Identidade, catálogo e pedidos são estado remoto com loading/error/cache/invalidação/cancelamento. Context resolve carrinho e notificações; não duplicamos cache no Redux.
+4. **Por que carrinho local?** Permite intenção anônima persistente sem novo domínio backend. Não sincroniza dispositivos nem reserva saldo. Dados são validados ao ler storage, mas continuam não confiáveis.
+5. **Por que não confiar no preço do carrinho?** Storage pode ser editado e catálogo muda. Checkout envia IDs/quantidades; Java consulta preço e cria snapshots na transação. UI distingue estimativa e total histórico confirmado.
+6. **Como trata HTTP409?** Alert persistente, carrinho preservado e nenhum retry automático. Usuário revisa estado. Em falha de rede o resultado pode ser desconhecido: consultar pedidos antes de repetir.
+7. **Por que same-origin?** Nginx/Vite encaminham `/api` à origem interna; cookies/CSRF funcionam sem CORS amplo. Isso simplifica topologia, mas o token CSRF continua necessário.
+8. **Por que não Node backend?** Spring já implementa regras transacionais, segurança e PostgreSQL. Node é ferramenta de build/teste do React; Nginx serve estáticos/proxy. Outro servidor duplicaria responsabilidade.
+9. **Onde funciona RBAC?** Guard React melhora UX; Spring Security bloqueia chamadas administrativas diretas. Ownership filtra pedido pelo dono, com404 para pedido alheio. E2E valida UI e API.
+10. **TypeScript basta para validar API?** Não: tipos desaparecem no runtime. Schemas Zod validam JSON e derivam tipos, mas backend permanece autoridade para invariantes/transações.
+11. **O dashboard representa o banco inteiro?** Apenas total de produtos informado pela API é global. Ativos/alertas contam registros carregados e exibem esse escopo. Não há endpoint de analytics ou pedidos globais de ADMIN.
+12. **O que o teste concorrente realmente prova?** Dois browsers autenticados compram a última unidade:201 e409, um pedido persistido, saldo0 e carrinho do perdedor intacto. Complementa testes de rollback/cancelamento no PostgreSQL real.
+
+## Full Stack v0.2.0 — English
+
+1. **Why no JWT?** Existing server sessions provide HttpOnly cookies and server logout; a parallel bearer contract is unnecessary.
+2. **How CSRF?** Fetch the endpoint-provided token/header, attach it to mutations and refresh after login. Automatic cookies alone do not prove request intent.
+3. **Why Query?** It owns remote loading/error/cache/invalidation/cancellation. Context owns cart/feedback, avoiding duplicated state.
+4. **Why local cart?** Anonymous persistent intent without a backend domain; no reservation/device synchronization and no trusted prices.
+5. **Why ignore cart prices?** Browser storage is editable and prices change. Java derives authoritative values from IDs/quantities and stores snapshots transactionally.
+6. **HTTP409 and uncertain outcomes?** Preserve cart, show a persistent error, never replay automatically. Check orders after an uncertain network failure.
+7. **Why same-origin?** A reverse proxy avoids broad CORS/cross-origin cookie configuration while preserving mandatory CSRF.
+8. **Why not Node backend?** Spring already owns business/security/transactions; Node builds/tests React and Nginx serves/proxies it.
+9. **Where is RBAC?** Spring is the authority; React guards are UX. Owner-scoped orders reject foreign IDs even when called directly.
+10. **Are static types enough?** No; Zod checks runtime JSON. The server remains the invariant/transaction authority.
+11. **Are dashboard numbers global?** Only the API-reported product total; loaded-page counts explicitly identify their scope.
+12. **What does concurrency E2E prove?** Two authenticated browsers, one unit:201/409, one order, stock0 and a retained loser cart.
+
+## Backend — English
 
 1. **Why a modular monolith?** One application and database provide a local purchase transaction and simple deployment. Current requirements do not justify distributed services.
 2. **Why `BigDecimal`?** Exact decimal BRL amounts, two decimal places and an explicit rejection of required rounding.

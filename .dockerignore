@@ -4,3 +4,4 @@ target
 docs
 src/test
 *.log
+frontend

@@ -1,7 +1,7 @@
 name: Backend CI
 on:
   push:
-    branches: [main, dev, feature/backend-foundation]
+    branches: [main, dev, feature/backend-foundation, feature/fullstack-experience]
   pull_request:
 permissions:
   contents: read
@@ -31,3 +31,67 @@ jobs:
           path: |
             target/surefire-reports/
             target/failsafe-reports/
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npm audit --omit=dev
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install browser tests
+        working-directory: frontend
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Start isolated full-stack environment
+        env:
+          DB_PASSWORD: ci-database-only-password
+          ORDERSPHERE_ADMIN_EMAIL: admin@ordersphere.test
+          ORDERSPHERE_ADMIN_PASSWORD: CiAdminOnly!2026
+        run: docker compose -p ordersphere-ci up -d --build --wait --wait-timeout 180
+      - name: Customer, admin, security, concurrency and visual checks
+        working-directory: frontend
+        env:
+          E2E_BASE_URL: http://localhost:8080
+          E2E_ADMIN_EMAIL: admin@ordersphere.test
+          E2E_ADMIN_PASSWORD: CiAdminOnly!2026
+        run: npm run e2e
+      - name: Browser reports and screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: browser-reports
+          path: |
+            frontend/playwright-report/
+            frontend/test-results/
+            docs/screenshots/
+      - name: Stop isolated environment
+        if: always()
+        env:
+          DB_PASSWORD: ci-database-only-password
+          ORDERSPHERE_ADMIN_EMAIL: admin@ordersphere.test
+          ORDERSPHERE_ADMIN_PASSWORD: CiAdminOnly!2026
+        run: docker compose -p ordersphere-ci down -v

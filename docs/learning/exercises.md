@@ -2,6 +2,8 @@
 
 ## Português
 
+Exercícios da v0.2.0: [trilha full-stack](fullstack.md#trilha-prática), cobrindo cache, formulários, storage, CSRF e concorrência vista pela UI.
+
 Faça os exercícios em uma branch própria e confirme os testes existentes. Os desafios abaixo não incluem soluções.
 
 ### Fundamentos — Java puro
