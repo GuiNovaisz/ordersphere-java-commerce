@@ -1,0 +1,7 @@
+2026-11-06 — PostgreSQL 17 / Testcontainers, HTTP requests synchronized with CyclicBarrier
+Test: BackendIT#twoSimultaneousHttpPurchasesCannotOversellOneUnit
+Full clean verify: PASS (included among 16 integration tests)
+Additional independent execution 1: PASS (BUILD SUCCESS)
+Additional independent execution 2: PASS (BUILD SUCCESS)
+Every execution asserted: HTTP statuses 201 and 409; persisted orders = 1; final stock = 0.
+Total: 3 successful executions of the same scenario, not 3 distinct test cases.
