@@ -129,6 +129,58 @@ class BackendIT {
     }
 
     @Test
+    void invalidRegistrationCannotPersistUser() throws Exception {
+        mvc.perform(json(post("/api/v1/auth/register"), "{\"email\":\"not-an-email\",\"password\":\"short\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentTypeCompatibleWith("application/problem+json"));
+        assertThat(jdbc.queryForObject("select count(*) from app_users", Integer.class)).isEqualTo(3);
+    }
+
+    @Test
+    void productMassAssignmentAndMalformedInputAreRejected() throws Exception {
+        String extraField = productJson("MASS-1", "Product", "1.00", true).replace("}", ",\"id\":\"" + UUID.randomUUID() + "\"}");
+        mvc.perform(json(post("/api/v1/admin/products").with(as(admin, "ADMIN")), extraField))
+                .andExpect(status().isBadRequest());
+        mvc.perform(json(post("/api/v1/admin/products").with(as(admin, "ADMIN")), "{broken"))
+                .andExpect(status().isBadRequest());
+        mvc.perform(get("/api/v1/products/not-a-uuid")).andExpect(status().isBadRequest());
+        assertThat(jdbc.queryForObject("select count(*) from products", Integer.class)).isZero();
+    }
+
+    @Test
+    void paginationAndSortHaveStableMetadataAndBoundedResults() throws Exception {
+        product("PAGE-1", "Alpha", "1.00", true);
+        product("PAGE-2", "Zulu", "9.00", true);
+        mvc.perform(get("/api/v1/products").param("size", "1").param("sort", "price,desc"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content.length()").value(1))
+                .andExpect(jsonPath("$.content[0].sku").value("PAGE-2"))
+                .andExpect(jsonPath("$.page.totalElements").value(2))
+                .andExpect(jsonPath("$.page.totalPages").value(2));
+        mvc.perform(get("/api/v1/products").param("sort", "passwordHash,asc"))
+                .andExpect(status().isBadRequest());
+        mvc.perform(get("/api/v1/products").param("page", "-1"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void loginRotatesSessionIdAndCsrfToken() throws Exception {
+        SessionClient client = new SessionClient();
+        String anonymousSession = client.cookies.getCookieStore().getCookies().stream()
+                .filter(cookie -> cookie.getName().equals("JSESSIONID")).findFirst().orElseThrow().getValue();
+        String oldToken = client.token;
+        client.login("alice@example.test");
+        String authenticatedSession = client.cookies.getCookieStore().getCookies().stream()
+                .filter(cookie -> cookie.getName().equals("JSESSIONID")).findFirst().orElseThrow().getValue();
+        assertThat(authenticatedSession).isNotEqualTo(anonymousSession);
+        assertThat(client.token).isNotEqualTo(oldToken);
+        HttpResponse<String> oldCsrf = client.client.send(HttpRequest.newBuilder(uri("/api/v1/orders"))
+                .header("Content-Type", "application/json").header(client.header, oldToken)
+                .POST(HttpRequest.BodyPublishers.ofString("{\"items\":[]}")).build(), HttpResponse.BodyHandlers.ofString());
+        assertThat(oldCsrf.statusCode()).isEqualTo(403);
+        assertThat(client.get("/api/v1/admin/products").statusCode()).isEqualTo(403);
+    }
+
+    @Test
     void catalogFiltersStatusSkuUniquenessAndStockAdjustments() throws Exception {
         UUID product = product("BOOK-1", "Java Book", "49.90", true);
         UUID inactive = product("BOOK-2", "Old Book", "20.00", false);
@@ -240,6 +292,19 @@ class BackendIT {
     }
 
     @Test
+    void cancellationCapacityConflictRollsBackStatusAndStock() throws Exception {
+        UUID product = product("CAP-1", "Capacity", "1.00", true);
+        stock(product, 1);
+        UUID order = createOrder(alice, items(product, 1));
+        stock(product, 1_000_000_000);
+        mvc.perform(json(post("/api/v1/orders/" + order + "/cancel").with(as(alice, "CUSTOMER")), "{}"))
+                .andExpect(status().isConflict());
+        assertStock(product, 1_000_000_000);
+        mvc.perform(get("/api/v1/orders/" + order).with(as(alice, "CUSTOMER")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("CONFIRMED"));
+    }
+
+    @Test
     void migrationsAndOpenApiAreAvailable() throws Exception {
         assertThat(jdbc.queryForObject("select count(*) from flyway_schema_history where success=true", Integer.class)).isPositive();
         mvc.perform(get("/v3/api-docs")).andExpect(status().isOk())
@@ -310,7 +375,7 @@ class BackendIT {
     private int countOrders(UUID user) throws Exception {
         MvcResult result = mvc.perform(get("/api/v1/orders").with(as(user, "CUSTOMER")))
                 .andExpect(status().isOk()).andReturn();
-        Number total = JsonPath.read(result.getResponse().getContentAsString(), "$.totalElements");
+        Number total = JsonPath.read(result.getResponse().getContentAsString(), "$.page.totalElements");
         return total.intValue();
     }
 
@@ -318,11 +383,12 @@ class BackendIT {
 
     private final class SessionClient {
         final HttpClient client;
+        final CookieManager cookies;
         String token;
         String header;
 
         SessionClient() throws Exception {
-            CookieManager cookies = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
+            cookies = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
             client = HttpClient.newBuilder().cookieHandler(cookies).connectTimeout(Duration.ofSeconds(10)).build();
             refreshCsrf();
         }
