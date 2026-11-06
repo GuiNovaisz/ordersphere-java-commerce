@@ -225,6 +225,23 @@ class BackendIT {
     }
 
     @Test
+    void orderItemPersistenceFailureRollsBackOrderAndInventory() throws Exception {
+        UUID product = product("PERSIST-FAIL-1", "Persistence rollback", "7.77", true);
+        stock(product, 1);
+        // Fault injection only in this disposable PostgreSQL container, never a production migration.
+        jdbc.execute("ALTER TABLE order_items ADD CONSTRAINT test_reject_snapshot CHECK (unit_price <> 7.77)");
+        try {
+            mvc.perform(json(post("/api/v1/orders").with(as(alice, "CUSTOMER")), items(product, 1)))
+                    .andExpect(status().isConflict());
+            assertStock(product, 1);
+            assertThat(jdbc.queryForObject("SELECT count(*) FROM customer_orders", Long.class)).isZero();
+            assertThat(jdbc.queryForObject("SELECT count(*) FROM order_items", Long.class)).isZero();
+        } finally {
+            jdbc.execute("ALTER TABLE order_items DROP CONSTRAINT test_reject_snapshot");
+        }
+    }
+
+    @Test
     void multiItemFailureRollsBackEveryStockDecrement() throws Exception {
         UUID first = product("ROLL-1", "First", "1.00", true);
         UUID second = product("ROLL-2", "Second", "2.00", true);
