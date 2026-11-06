@@ -1,6 +1,6 @@
 # OrderSphere
 
-Auditoria atual da fundação / Current foundation audit: [resultados e prontidão / results and readiness](docs/backend-foundation-final-audit.md).
+Full Stack Experience v0.2.0 em revisão / under review: [arquitetura frontend](docs/architecture/frontend.md) · [operação](docs/operations.md) · [auditoria](docs/fullstack-audit.md). Fundação publicada: [v0.1.1](docs/backend-foundation-final-audit.md).
 
 Licença: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
 License: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
@@ -9,14 +9,17 @@ License: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
 
 > 🇧🇷 **Documentação em Português (Brasil)**
 >
-> 🇺🇸 **The complete English version is available immediately after the Portuguese section.**
+> 🇺🇸 **The complete English version follows below.**
 
-Backend de catálogo, estoque e pedidos com consistência transacional. **v0.1.1 — Backend Foundation Consolidated:** 22 testes aprovados e execução Docker verificada. Consulte a [auditoria](docs/audit.md) e o [relatório de implementação](docs/implementation-report.md). [Release v0.1.1](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.1).
+OrderSphere combina uma experiência full-stack moderna com um backend Java transacional que mantém consistência de estoque mesmo sob compras concorrentes. A **v0.2.0 — Full Stack Experience** adiciona React e TypeScript à fundação publicada [v0.1.1](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.1.1), preservando a API e suas transações.
+
+![Catálogo OrderSphere](docs/screenshots/catalog-desktop.png)
 
 ## Sumário
 
 | Português | English |
 | --- | --- |
+| [Experiência full-stack](#fullstack-pt) | [Full-stack experience](#fullstack-en) |
 | [Visão geral](#visao-geral) | [Overview](#overview) |
 | [Por que este projeto existe](#objetivo) | [Purpose](#purpose) |
 | [Funcionalidades e domínios](#funcionalidades) | [Features and domains](#features) |
@@ -40,7 +43,28 @@ O OrderSphere gerencia um catálogo comercializável, saldo de estoque e pedidos
 <a id="objetivo"></a>
 ## Por que este projeto existe
 
-Este projeto de portfólio demonstra Java, API REST, modelagem, autorização, PostgreSQL, transações e concorrência com exemplos verificáveis. A documentação educacional acompanha o código para quem está consolidando fundamentos de Java e POO. A fundação é backend-first; um frontend poderá consumir os contratos existentes posteriormente.
+Este projeto de portfólio demonstra Java, API REST, modelagem, autorização, PostgreSQL, transações e concorrência com exemplos verificáveis. A interface torna essas garantias demonstráveis, sem assumir autoridade sobre preço ou estoque. A documentação educacional conecta Java, React e segurança web ao código real.
+
+<a id="fullstack-pt"></a>
+## Experiência full-stack
+
+**CUSTOMER:** catálogo público com busca parcial por nome, SKU exato, ordenação e paginação; detalhes; carrinho persistido; cadastro/login; checkout simulado; histórico, detalhe e cancelamento dos próprios pedidos. O carrinho envia somente IDs e quantidades. O servidor decide preços, disponibilidade e total. Conflitos preservam o carrinho e nunca repetem automaticamente uma compra.
+
+**ADMIN:** workspace protegido, dashboard com escopo explícito dos dados carregados, produtos com criação/edição/status/filtros e estoque por delta com prévia e confirmação. Não existem analytics, categorias ou reviews inventados. As ilustrações são placeholders determinísticos por SKU, não fotografias dos produtos.
+
+**Frontend:** React 19, TypeScript strict, Vite 8, React Router 7, TanStack Query 5, React Hook Form 7 e Zod 4. CSS próprio com tokens, SVG da marca e Lucide mantém o visual consistente sem framework de UI. Rotas administrativas, autenticação e pedidos usam code splitting. Tema claro/escuro persiste com fallback do sistema; navegação por teclado, foco, labels e dialogs nativos acompanham layouts responsivos.
+
+**Sessão:** o cookie HttpOnly pertence ao Spring; a identidade vem de `/auth/me`. O cliente HTTP centraliza credenciais, valida respostas com Zod, usa o header CSRF informado pela API e renova o token após login. 401 limpa identidade e consultas privadas. Guards são UX; RBAC e ownership são impostos pelo backend. Não há JWT nem senha/token em localStorage. Apenas carrinho não sensível e preferência de tema são persistidos.
+
+```mermaid
+flowchart LR
+    Browser[Browser / React SPA] --> Web[Nginx / mesma origem]
+    Web -->|/api e cookie de sessão| Spring[Spring Security e REST]
+    Spring --> Tx[Services / transações]
+    Tx --> PG[(PostgreSQL)]
+```
+
+O Compose serve a aplicação em `http://localhost:8080`; Vite usa proxy `/api` durante desenvolvimento. Node é ferramenta de build/teste, sem segundo backend. Veja [frontend](frontend/README.md), [arquitetura](docs/architecture/frontend.md), [ADR 005](docs/architecture/decisions/005-react-frontend.md), [ADR 006](docs/architecture/decisions/006-same-origin-proxy.md) e [conceitos full-stack](docs/learning/fullstack.md).
 
 <a id="funcionalidades"></a>
 ## Funcionalidades e domínios
@@ -136,6 +160,8 @@ No Linux/macOS: `./mvnw clean verify`. O Docker precisa estar ativo para Postgre
 
 [Código de testes](src/test), [auditoria com resultados reais](docs/audit.md) e [pipeline](.github/workflows). O CI configura Java, usa cache Maven e executa `verify` com Docker no runner. Dependabot acompanha dependências; não há deploy automático. Execução remota só deve ser considerada aprovada após o workflow concluir com sucesso.
 
+Frontend: em `frontend/`, execute `npm ci`, `npm run lint`, `npm run typecheck`, `npm test` e `npm run build`. Vitest/Testing Library cobrem formulários, carrinho, erros HTTP e guards. Playwright usa a stack real descartável para CUSTOMER, ADMIN, CSRF, ownership, concorrência e layouts; [instruções e dados controlados](frontend/README.md). A CI mantém o job backend `verify` e acrescenta `frontend` e `e2e` com Chromium, Docker e artefatos visuais. Confira as evidências atuais na [auditoria full-stack](docs/fullstack-audit.md).
+
 <a id="execucao"></a>
 ## Docker e como executar
 
@@ -148,7 +174,9 @@ docker compose up --build -d
 docker compose ps
 ```
 
-API local: `http://localhost:8080`; health: `/actuator/health`. Compose usa API e PostgreSQL, volume persistente, rede interna e health checks. O banco não publica porta no host. A imagem backend é construída em múltiplos estágios e executa com usuário sem privilégios. O Compose exige credenciais de bootstrap para facilitar o primeiro acesso administrativo; fora dele, o bootstrap da aplicação é opcional.
+Aplicação local: `http://localhost:8080`; API: `/api/v1`; health: `/actuator/health`. Compose usa `web` (Nginx non-root), `api` (Spring non-root) e `db` (PostgreSQL), volume persistente, rede interna e health checks. Somente o frontend publica porta em loopback; API e banco ficam internos. `WEB_PORT` altera a porta do host. O Compose exige credenciais de bootstrap para o primeiro acesso administrativo; fora dele, o bootstrap da aplicação é opcional. Um banco novo inicia sem produtos: crie-os e ajuste seus saldos pelo ADMIN. Não há dados fictícios injetados na execução normal.
+
+Para editar a UI, execute `npm ci` e `npm run dev` em `frontend/`. Vite atende `http://localhost:5173` e encaminha `/api` à API em `http://localhost:8080`; `API_PROXY_TARGET` permite outra origem de desenvolvimento. Use a API no host conforme abaixo ou a stack Compose como destino. Não é necessário habilitar CORS amplo.
 
 Para build local, forneça `JDBC_DATABASE_URL`, `DB_USERNAME` e `DB_PASSWORD` apontando para um PostgreSQL acessível e execute:
 
@@ -174,14 +202,29 @@ Para build local, forneça `JDBC_DATABASE_URL`, `DB_USERNAME` e `DB_PASSWORD` ap
 <a id="limitacoes"></a>
 ## Limitações
 
-Somente BRL; sem pagamentos, frete, impostos ou descontos. Não há frontend, microsserviços, mensagens ou cache externo. Sessões ficam em memória e se perdem ao reiniciar. Criação de pedido não possui chave de idempotência: repetir POST pode criar nova compra. O cancelamento é idempotente, mas pode falhar e reverter se a reposição exceder o limite de estoque após reabastecimento administrativo. Não há reserva temporária, recuperação de senha ou limitação distribuída de tentativas de login nesta fundação. É um projeto de portfólio; publicação não equivale a uma operação comercial auditada.
+Somente BRL; sem pagamentos, frete, impostos ou descontos. Não há microsserviços, mensagens ou cache externo. Sessões ficam em memória e se perdem ao reiniciar. Criação de pedido não possui chave de idempotência: repetir POST pode criar nova compra. A UI não faz retry automático; em uma falha de rede, consulte pedidos antes de confirmar novamente. O cancelamento é idempotente, mas pode reverter se a reposição exceder o limite após reabastecimento. Não há reserva temporária, recuperação de senha ou limitação distribuída de login. Dashboard não é analytics global; catálogo público não revela saldo. Acessibilidade automatizada não substitui auditoria com tecnologias assistivas. É um portfólio, sem certificação comercial.
 
 <a id="roadmap-pt"></a>
 ## Roadmap
 
-**v0.2.0:** possível frontend React + TypeScript, catálogo, carrinho, checkout simulado, pedidos e administração sobre a API existente. **v0.3.0:** evolução backend conforme evidências de necessidade, sem promessa antecipada de tecnologias distribuídas.
+**v0.2.0:** implementação full-stack na feature, aguardando revisão; sem merge, tag ou release nesta missão. Próximas evoluções dependem de avaliação e necessidade observada; não há compromisso antecipado com infraestrutura distribuída.
 
 ## 🇺🇸 English
+
+<a id="fullstack-en"></a>
+### Full-stack experience
+
+OrderSphere combines a modern full-stack experience with a transactional Java backend that keeps inventory consistent during concurrent purchases. The v0.2.0 feature adds React/TypeScript to released v0.1.1 without changing its Java contracts.
+
+**CUSTOMER:** public searchable/sortable/paginated catalog, product details, persistent cart, registration/login, simulated checkout, own order history/details and cancellation. Cart totals are estimates; only product IDs and quantities reach checkout. The server determines prices and inventory. Conflicts retain cart contents and order POSTs are never retried automatically.
+
+**ADMIN:** protected workspace, explicitly scoped operational dashboard, product creation/editing/status/filtering and inventory delta adjustments with preview and confirmation. No invented analytics, reviews or categories. Product illustrations are deterministic SKU placeholders, not product photos.
+
+**Frontend:** React 19, strict TypeScript, Vite 8, React Router 7, TanStack Query 5, React Hook Form 7, Zod 4 and Lucide. Custom CSS tokens and an SVG wordmark avoid a large UI framework. Lazy routes split admin/auth/order code. Persistent light/dark themes, system fallback, keyboard focus, labels and native dialogs support responsive layouts.
+
+**Security:** Spring owns the HttpOnly session cookie. Identity comes from `/auth/me`; one API client validates responses and centralizes credentials and server-provided CSRF headers. Login refreshes CSRF. HTTP401 clears identity/private queries; guards provide UX while Spring enforces RBAC and ownership. No JWT, password or session token is stored in browser storage; only a nonsensitive cart and theme preference persist.
+
+The diagram in the Portuguese section shows Browser/React → same-origin Nginx → Spring Security/REST → transactional services → PostgreSQL. Node builds/tests the UI; Java remains the only backend. See [frontend instructions](frontend/README.md), [architecture](docs/architecture/frontend.md), [ADR 005](docs/architecture/decisions/005-react-frontend.md), [ADR 006](docs/architecture/decisions/006-same-origin-proxy.md), [learning](docs/learning/fullstack.md) and [full-stack audit](docs/fullstack-audit.md).
 
 <a id="overview"></a>
 ### Overview
@@ -191,7 +234,7 @@ OrderSphere manages a product catalog, inventory and authenticated users' orders
 <a id="purpose"></a>
 ### Purpose
 
-This portfolio project demonstrates Java, REST design, domain modeling, authorization, PostgreSQL transactions and concurrency through verifiable examples. Learning material connects code to Java and object-oriented fundamentals. The backend comes first; a future frontend can consume the existing contracts.
+This portfolio demonstrates Java, React, REST, domain modeling, authorization and PostgreSQL transactions/concurrency through verifiable examples. The frontend makes the backend guarantees visible while leaving price and inventory authority on the server.
 
 <a id="features"></a>
 ### Features and domains
@@ -272,6 +315,8 @@ Run `.\mvnw.cmd clean verify` on Windows or `./mvnw clean verify` on Linux/macOS
 
 See [test source](src/test), [actual audit results](docs/audit.md) and [CI definitions](.github/workflows). GitHub Actions configures Java, caches Maven dependencies and runs `verify` with Docker available. Dependabot tracks dependencies. There is no automatic deployment; remote CI is approved only after a successful completed run.
 
+Inside `frontend/`, run `npm ci`, `npm run lint`, `npm run typecheck`, `npm test` and `npm run build`. Vitest/Testing Library exercise validation, cart behavior, API errors and guards. Playwright uses a disposable real stack for customer/admin/security/concurrency and responsive visual checks. CI adds `frontend` and `e2e` jobs with Chromium and visual artifacts; see the [frontend guide](frontend/README.md) and [current evidence](docs/fullstack-audit.md).
+
 <a id="running"></a>
 ### Docker and running locally
 
@@ -284,7 +329,9 @@ docker compose up --build -d
 docker compose ps
 ```
 
-The API listens at `http://localhost:8080`; health is `/actuator/health`. Compose includes the API and PostgreSQL, health checks, an internal network and a persistent volume. PostgreSQL does not publish a host port. The backend uses a multi-stage build and a nonprivileged runtime user. Compose requires bootstrap credentials for a usable first administrative login; application bootstrap is optional outside Compose.
+The application listens at `http://localhost:8080`, API at `/api/v1`, health at `/actuator/health`. Compose runs non-root Nginx `web`, non-root Spring `api` and PostgreSQL `db`, with health checks, an internal network and a persistent volume. Only web publishes a loopback port, configured by `WEB_PORT`. Compose requires bootstrap credentials; a fresh database has no products. Use ADMIN to create products and adjust inventory. Normal startup never injects demo records.
+
+For UI development, run `npm ci` and `npm run dev` inside `frontend/`. Vite serves port5173 and proxies `/api` to localhost8080 (override with `API_PROXY_TARGET`). Use the host API below or Compose as the proxy target, without broad CORS.
 
 For a local Maven run, supply `JDBC_DATABASE_URL`, `DB_USERNAME` and `DB_PASSWORD` for a reachable PostgreSQL instance, then run the verification command followed by `.\mvnw.cmd spring-boot:run`. Default URL: `jdbc:postgresql://localhost:5432/ordersphere`; default username: `ordersphere`. Compose reads `.env`; Maven does not load that file automatically. See the [operations guide](docs/operations.md).
 
@@ -300,9 +347,9 @@ For a local Maven run, supply `JDBC_DATABASE_URL`, `DB_USERNAME` and `DB_PASSWOR
 <a id="limitations"></a>
 ### Limitations
 
-BRL only; no payments, shipping, taxes or discounts. No frontend, microservices, messaging or external cache. Sessions are stored in memory and lost on restart. Order creation has no idempotency key: repeating POST can create another purchase. Cancellation is idempotent but rolls back if restoration would exceed the stock cap after administrative replenishment. Temporary reservations, password recovery and distributed login attempt limiting are outside this foundation. Publishing a portfolio project does not constitute a commercially audited operation.
+BRL only; no payments, shipping, taxes, discounts, microservices, messaging or external cache. Sessions are in memory and lost on restart. Order creation has no idempotency key; the UI never automatically retries it. After a network failure, inspect orders before submitting again. Cancellation is idempotent but can roll back if stock restoration exceeds the cap. No temporary reservations, password recovery or distributed login limiting. The dashboard is not global analytics; public catalog responses do not reveal stock. Automated accessibility checks do not replace assistive-technology testing. This portfolio is not a commercially certified operation.
 
 <a id="roadmap-en"></a>
 ### Roadmap
 
-**v0.2.0:** a possible React/TypeScript frontend for catalog, cart, simulated checkout, orders and administration using the current API. **v0.3.0:** backend improvements driven by observed needs, without committing to distributed infrastructure before it is justified.
+**v0.2.0:** full-stack implementation on the feature branch for review; no merge, tag or release in this mission. Future work requires evaluation and observed needs rather than premature distributed infrastructure.

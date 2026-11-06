@@ -10,7 +10,8 @@ O OrderSphere é um monólito modular: um processo Spring Boot e um PostgreSQL. 
 
 ```mermaid
 flowchart TD
-    Client[Cliente REST futuro frontend] --> Security[Spring Security sessão e CSRF]
+    Client[Browser / React SPA] --> Proxy[Nginx ou Vite proxy]
+    Proxy --> Security[Spring Security sessão e CSRF]
     Security --> Controllers[Controllers e DTOs]
     Controllers --> Services[Services casos de uso]
     Services --> Domain[Entidades e regras de domínio]
@@ -61,7 +62,7 @@ Criar pedido consome estoque e persiste itens na mesma transação. Cancelar blo
 3. [Snapshot de preço](decisions/003-order-price-snapshot.md).
 4. [Sessão e CSRF](decisions/004-authentication-strategy.md).
 
-A v0.2.0 pode consumir os contratos REST com um frontend. Extrações de módulos exigirão evidências de necessidade e uma nova estratégia de consistência; separação de pacotes não transforma automaticamente o sistema em microsserviços.
+A v0.2.0 consome os contratos REST com React/TypeScript; veja [arquitetura full-stack](frontend.md), [ADR 005](decisions/005-react-frontend.md) e [ADR 006](decisions/006-same-origin-proxy.md). Extrações de módulos exigirão evidências de necessidade e uma nova estratégia de consistência; separação de pacotes não transforma automaticamente o sistema em microsserviços.
 
 ## English
 
@@ -75,4 +76,4 @@ The diagrams above show the request path and the order transaction. `app_users` 
 
 Creating an order consumes inventory and persists snapshots in one transaction. A failed item rolls back the entire purchase. Products are processed in stable UUID order to reduce lock cycles. Cancellation locks the order row, enforces ownership and restores inventory once. Database timeouts and infrastructure failures can still abort a transaction.
 
-The four linked ADRs record the deployment model, inventory update strategy, price snapshot and session authentication. A future frontend can consume the existing REST API. Splitting processes would require a new consistency design and evidence that the additional operational cost is justified.
+The linked ADRs record deployment, concurrency, snapshots and sessions. React now consumes the existing REST API; see [frontend architecture](frontend.md) and ADRs005/006. Splitting backend processes would still require a new consistency design and evidence that the operational cost is justified.

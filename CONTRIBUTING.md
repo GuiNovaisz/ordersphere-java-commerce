@@ -2,24 +2,18 @@
 
 ## Português
 
-`main` representa o último estado integrado. Todo desenvolvimento humano/agente restante da Backend Foundation ocorre exclusivamente em `feature/backend-foundation`, incluindo código, testes, segurança, Docker, CI e documentação. Use commits pequenos e coerentes; não crie branches separadas por domínio nesta milestone.
+`main` é a branch padrão e representa a versão estável; `dev` é a integração permanente. A Backend Foundation está publicada em v0.1.1. Esta milestone trabalha somente em `feature/fullstack-experience`, criada de `dev`, com upstream `origin/feature/fullstack-experience`. Não crie outra branch por componente.
 
-Antes de trabalhar, confira `git status`, atualize referências com `git fetch origin` e preserve alterações locais. Trabalhe em `feature/backend-foundation`, com upstream `origin/feature/backend-foundation`. Integre mudanças posteriores de `main` sem reescrever commits publicados.
+Antes de trabalhar, confira status, referências/upstreams e mudanças locais; use fetch sem reescrever histórico publicado. Commits devem ser semânticos e coerentes. Preserve tags v0.1.0/v0.1.1. Não faça force push, merge, tag, release ou deploy sem autorização apropriada. Na missão v0.2.0, publique somente a feature e pare para revisão; **não abra PR automaticamente**. A futura integração autorizada seguirá `feature → dev → main`, com validação em cada etapa.
 
-O fluxo atual é `feature/backend-foundation → dev → main`. `dev` é a branch permanente de integração, criada da base estável `685d7b3`; a feature existente foi preservada. Quando o trabalho estiver pronto, execute testes e auditoria e prepare PR para `dev`. Nenhum merge é automático. Depois da integração, valide novamente em `dev`; a promoção `dev → main` exige autorização explícita. `main` exige PR e o check `verify`, sem aprovação externa obrigatória. `dev` bloqueia force push e exclusão; a CI foi preparada para pushes em `dev` e PRs. Não reescreva histórico publicado. Novas features futuras partirão de `dev`, sem criar branches antecipadamente.
+Rode Maven `clean verify` com PostgreSQL/Testcontainers, checks frontend (`npm ci`, format:check, lint, typecheck, test, build) e Playwright contra stack descartável. Confira CI real depois do push; build local não substitui o runner. Documente evidências e limitações sem credenciais. Consulte [frontend](frontend/README.md), [operação](docs/operations.md) e [auditoria](docs/fullstack-audit.md).
 
-Branches `dependabot/**` são manutenção automática legítima e não violam a regra de uma branch humana/agente. Avalie versão, compatibilidade, impacto e CI de cada PR separadamente. Não consolide, exclua ou faça merge em massa.
-
-A tag e a release `v0.1.0` já existiam quando este fluxo foi corrigido e serão preservadas. Não recrie nem mova essa tag. Qualquer publicação posterior exige versão e autorização adequadas. Não crie a branch futura `feature/fullstack-experience` nesta etapa.
+Branches `dependabot/**` são manutenção automática legítima. Avalie compatibilidade e CI por atualização; não consolide, exclua ou faça merge em massa. Proteções das branches e releases existentes não são alteradas por esta milestone.
 
 ## English
 
-`main` represents the last integrated state. All remaining human/agent Backend Foundation work belongs exclusively on `feature/backend-foundation`, including code, tests, security, Docker, CI and documentation. Use small coherent commits rather than separate feature branches per domain.
+`main` remains the default stable branch; `dev` is permanent integration. Backend Foundation is released as v0.1.1. Work for this milestone belongs solely on `feature/fullstack-experience`, based on dev and tracking its matching origin branch. Do not create branches per UI component.
 
-Inspect status, fetch remote refs and preserve local changes before switching. Track `origin/feature/backend-foundation`; integrate later `main` changes without rewriting published commits.
+Inspect status/refs/upstreams and preserve local changes. Use coherent semantic commits; never rewrite published history. Preserve existing tags. This mission authorizes feature pushes only: **no automatic PR, merge, tag, release or public deployment**. Stop for review. Future authorized integration follows feature → dev → main with verification at each step.
 
-The current flow is `feature/backend-foundation → dev → main`. Permanent integration branch `dev` starts at stable commit `685d7b3`; the existing feature history is preserved. After tests and audit, prepare a PR into `dev`, without automatic merges. Revalidate integration on `dev`; promoting `dev → main` requires explicit authorization. Main requires a PR and `verify`, without external approval. Dev blocks force push/deletion; CI includes dev pushes and PRs. Future features start from dev when needed. Never rewrite published history.
-
-`dependabot/**` branches are legitimate automated maintenance. Review each dependency update, compatibility, impact and CI independently. Do not consolidate, delete or merge them in bulk.
-
-The existing `v0.1.0` tag/release predate this workflow correction and remain preserved. Do not recreate or move that tag. Later releases need an appropriate version and authorization. Do not create the future Full Stack branch yet.
+Run Maven verification, reproducible frontend checks and real Playwright against disposable data; inspect remote CI after pushing. Record evidence/limitations without credentials. Dependabot branches remain legitimate maintenance and require individual compatibility/CI review, without bulk merging or deletion. Existing branch protections/releases remain untouched.

@@ -2,6 +2,8 @@
 
 ## Português
 
+Para SPA, React, hooks, TypeScript, estado, sessão/CSRF, proxy e integração Docker, leia também a [trilha full-stack com código e exercícios](fullstack.md).
+
 Leia primeiro Java puro em `Product` e `OrderItem`, depois acompanhe uma compra do controller ao banco. Cada bloco propõe uma mudança pequena; não é necessário dominar Spring antes de entender uma quantidade ou um subtotal.
 
 ### Classes, objetos e encapsulamento
