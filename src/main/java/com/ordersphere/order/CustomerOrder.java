@@ -16,6 +16,7 @@ public class CustomerOrder {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "order_id", nullable = false)
     @OrderColumn(name = "position")
+    @org.hibernate.annotations.BatchSize(size = 100)
     private List<OrderItem> items = new ArrayList<>();
     @Column(nullable = false) private Instant createdAt;
     private Instant cancelledAt;

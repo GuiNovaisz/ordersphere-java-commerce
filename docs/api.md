@@ -2,6 +2,8 @@
 
 ## Português
 
+No Swagger UI, execute `GET /api/v1/auth/csrf` e copie o `token` retornado para o parâmetro `X-CSRF-TOKEN` das mutações. Os cookies são mantidos pelo navegador na mesma origem. Depois de login/logout, obtenha e copie um token novo. Operações públicas são identificadas sem requisito de sessão no OpenAPI.
+
 Base local: `http://localhost:8080/api/v1`. OpenAPI gerado pelo código: `/v3/api-docs`. Interface: `/swagger-ui/index.html`. A especificação é a referência estrutural; os exemplos abaixo explicam sessão, CSRF e regras de negócio.
 
 ### Sessão e CSRF no PowerShell
@@ -77,6 +79,8 @@ Criar pedido não aceita `Idempotency-Key` nesta versão. Repetir um POST após 
 Erros usam `application/problem+json`, status e detalhe apropriados. Não incluem senha, token, stack trace ou SQL interno. Uma requisição sem sessão e sem CSRF pode ser rejeitada pelo filtro CSRF com 403 antes de chegar à autenticação; para testar 401 isoladamente use GET protegido ou token CSRF válido.
 
 ## English
+
+In Swagger UI, call `GET /api/v1/auth/csrf` and copy its token into each mutation's `X-CSRF-TOKEN` parameter. The browser retains same-origin cookies. Fetch and copy a new token after login/logout. Public operations have no session requirement in the OpenAPI contract.
 
 Local base: `http://localhost:8080/api/v1`. Generated OpenAPI: `/v3/api-docs`; Swagger UI: `/swagger-ui/index.html`.
 

@@ -1,5 +1,7 @@
 # OrderSphere
 
+[![Backend CI](https://github.com/GuiNovaisz/ordersphere-java-commerce/actions/workflows/ci.yml/badge.svg)](https://github.com/GuiNovaisz/ordersphere-java-commerce/actions/workflows/ci.yml)
+
 > 🇧🇷 **Documentação em Português (Brasil)**
 >
 > 🇺🇸 **The complete English version is available immediately after the Portuguese section.**
@@ -51,7 +53,7 @@ O catálogo público mostra apenas produtos ativos. Administradores consultam pr
 <a id="stack-pt"></a>
 ## Stack
 
-Java 21, Spring Boot 4.1.2, Spring MVC, Spring Security, Spring Data JPA/Hibernate, Bean Validation, PostgreSQL 17, Flyway, springdoc OpenAPI 3.2.0, Actuator, Maven Wrapper 3.9.12, JUnit 5, Testcontainers, Docker Compose e GitHub Actions. As versões gerenciadas pelo Spring Boot constam no [`pom.xml`](pom.xml).
+Java 21, Spring Boot 4.1.2, Spring MVC, Spring Security, Spring Data JPA/Hibernate, Bean Validation, PostgreSQL 17, Flyway, springdoc OpenAPI 3.2.0, Actuator, Maven Wrapper 3.9.12, JUnit Jupiter 6, Testcontainers, Docker Compose e GitHub Actions. As versões gerenciadas pelo Spring Boot constam no [`pom.xml`](pom.xml).
 
 <a id="arquitetura"></a>
 ## Arquitetura e modelagem
@@ -202,7 +204,7 @@ Public catalog requests return active products only. Administrators manage inact
 <a id="tech-stack"></a>
 ### Tech stack
 
-Java 21, Spring Boot 4.1.2, Spring MVC, Spring Security, Spring Data JPA/Hibernate, Bean Validation, PostgreSQL 17, Flyway, springdoc OpenAPI 3.2.0, Actuator, Maven Wrapper 3.9.12, JUnit 5, Testcontainers, Docker Compose and GitHub Actions. The [`pom.xml`](pom.xml) defines dependency management.
+Java 21, Spring Boot 4.1.2, Spring MVC, Spring Security, Spring Data JPA/Hibernate, Bean Validation, PostgreSQL 17, Flyway, springdoc OpenAPI 3.2.0, Actuator, Maven Wrapper 3.9.12, JUnit Jupiter 6, Testcontainers, Docker Compose and GitHub Actions. The [`pom.xml`](pom.xml) defines dependency management.
 
 <a id="architecture"></a>
 ### Architecture and data model

@@ -16,6 +16,7 @@ public class OrderController {
     public OrderController(OrderService orders) { this.orders = orders; }
 
     @PostMapping
+    @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
     public ResponseEntity<OrderView> create(@AuthenticationPrincipal AuthenticatedUser user, @Valid @RequestBody CreateOrderRequest request) {
         OrderView order = orders.create(user.id(), request);
         return ResponseEntity.created(URI.create("/api/v1/orders/" + order.id())).body(order);

@@ -2,6 +2,10 @@
 
 ## Português
 
+### Compatibilidade de versões
+
+Alvo Java 21; execução local verificada com JDK 25, sem alterar o Java global. Spring Boot 4.1.2 gerencia JUnit Jupiter 6.0.3. O prompt citava JUnit 5, mas forçar 5.14.4 causou `NoSuchMethodError` no `SpringExtension`; preservamos a combinação suportada pelo framework. Os testes continuam usando a API Jupiter (`@Test`, assertions e extensões), com execução real via Surefire/Failsafe. Referências: [requisitos do Boot](https://docs.spring.io/spring-boot/system-requirements.html) e [springdoc](https://springdoc.org/).
+
 O OrderSphere é um monólito modular: um processo Spring Boot e um PostgreSQL. Os pacotes `auth`, `user`, `catalog`, `inventory`, `order` e `shared` agrupam responsabilidades por domínio. Não há filas, chamadas entre serviços ou transações distribuídas.
 
 ```mermaid
@@ -60,6 +64,10 @@ Criar pedido consome estoque e persiste itens na mesma transação. Cancelar blo
 A v0.2.0 pode consumir os contratos REST com um frontend. Extrações de módulos exigirão evidências de necessidade e uma nova estratégia de consistência; separação de pacotes não transforma automaticamente o sistema em microsserviços.
 
 ## English
+
+### Version compatibility
+
+The compilation target is Java 21; local verification used JDK 25 without changing Windows defaults. Spring Boot 4.1.2 manages JUnit Jupiter 6.0.3. Although the original brief requested JUnit 5, forcing 5.14.4 produced a `NoSuchMethodError` in Spring's `SpringExtension`. The project therefore retains the compatible framework-managed version and the Jupiter programming model. See the [Boot requirements](https://docs.spring.io/spring-boot/system-requirements.html) and [springdoc compatibility documentation](https://springdoc.org/).
 
 OrderSphere is a modular monolith: one Spring Boot process and one PostgreSQL database. Packages `auth`, `user`, `catalog`, `inventory`, `order` and `shared` group cohesive responsibilities by domain. Controllers handle HTTP and DTO validation; services coordinate use cases and transactions; entities preserve business rules; repositories handle persistence.
 

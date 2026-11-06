@@ -44,12 +44,9 @@ management:
       show-details: never
       probes:
         enabled: true
-springdoc:
-  swagger-ui:
-    csrf:
-      enabled: true
-      use-local-storage: true
 logging:
+  level:
+    org.hibernate.orm.jdbc.error: OFF
   structured:
     format:
       console: logstash

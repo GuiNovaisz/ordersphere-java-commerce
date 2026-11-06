@@ -36,6 +36,7 @@ public class ProductController {
     public ProductView adminGet(@PathVariable UUID id) { return catalog.get(id, false); }
 
     @PostMapping("/admin/products")
+    @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
     public ResponseEntity<ProductView> create(@Valid @RequestBody ProductRequest request) {
         ProductView product = catalog.create(request);
         return ResponseEntity.created(URI.create("/api/v1/products/" + product.id())).body(product);

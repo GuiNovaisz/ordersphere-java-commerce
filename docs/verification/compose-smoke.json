@@ -1,0 +1,12 @@
+{
+  "Environment": "Docker Compose",
+  "Register": "PASS",
+  "Login": "PASS",
+  "AdminCatalog": "PASS",
+  "StockAdjustment": "PASS",
+  "Order": "PASS",
+  "DoubleCancel": "PASS",
+  "FinalStock": 1,
+  "OpenApi": "PASS",
+  "Logout": "PASS"
+}
