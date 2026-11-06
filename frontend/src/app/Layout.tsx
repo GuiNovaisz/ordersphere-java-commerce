@@ -73,7 +73,10 @@ export default function Layout() {
     mutationFn: api.logout,
     onSuccess: () => {
       navigate('/', { replace: true, flushSync: true })
-      client.removeQueries({ predicate: (query) => query.queryKey[0] !== 'identity' })
+      client.removeQueries({
+        predicate: (query) =>
+          !['identity', 'products', 'product'].includes(String(query.queryKey[0])),
+      })
       client.setQueryData(['identity'], null)
       notify('Você saiu da conta.')
     },

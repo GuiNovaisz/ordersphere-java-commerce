@@ -204,6 +204,7 @@ test('customer UI: register, login, checkout, historical order, cancel and logou
   await expect(page.getByText('Cancelado', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Sair da conta' }).click()
   await expect(page.getByRole('link', { name: 'Entrar', exact: true })).toBeVisible()
+  await expect(page.locator('.product-card')).toHaveCount(12)
   const storage = await page.evaluate(() => ({
     local: Object.keys(localStorage),
     session: Object.keys(sessionStorage),
@@ -254,6 +255,7 @@ test('admin UI: create/edit product, change status and adjust stock using delta'
   await expect(page.getByRole('button', { name: 'Revisar ajuste' })).toBeDisabled()
   await page.getByRole('button', { name: 'Sair da conta' }).click()
   await expect(page).toHaveURL('/')
+  await expect(page.locator('.product-card')).toHaveCount(12)
 })
 
 test('security: anonymous/admin guards and server RBAC', async ({ page }) => {
