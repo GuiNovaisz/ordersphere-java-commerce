@@ -6,7 +6,7 @@
 
 Antes de trabalhar, confira `git status`, atualize referências com `git fetch origin` e preserve alterações locais. Trabalhe em `feature/backend-foundation`, com upstream `origin/feature/backend-foundation`. Integre mudanças posteriores de `main` sem reescrever commits publicados.
 
-Quando o trabalho estiver pronto, execute testes e auditoria, abra PR para `main` e aguarde autorização explícita do proprietário antes do merge. `main` exige PR e o check `verify`, sem aprovação obrigatória de outro desenvolvedor. Não faça force push, exclusão de branches ou reescrita de histórico para reorganizar trabalho publicado.
+O fluxo atual é `feature/backend-foundation → dev → main`. `dev` é a branch permanente de integração, criada da base estável `685d7b3`; a feature existente foi preservada. Quando o trabalho estiver pronto, execute testes e auditoria e prepare PR para `dev`. Nenhum merge é automático. Depois da integração, valide novamente em `dev`; a promoção `dev → main` exige autorização explícita. `main` exige PR e o check `verify`, sem aprovação externa obrigatória. `dev` bloqueia force push e exclusão; a CI foi preparada para pushes em `dev` e PRs. Não reescreva histórico publicado. Novas features futuras partirão de `dev`, sem criar branches antecipadamente.
 
 Branches `dependabot/**` são manutenção automática legítima e não violam a regra de uma branch humana/agente. Avalie versão, compatibilidade, impacto e CI de cada PR separadamente. Não consolide, exclua ou faça merge em massa.
 
@@ -18,7 +18,7 @@ A tag e a release `v0.1.0` já existiam quando este fluxo foi corrigido e serão
 
 Inspect status, fetch remote refs and preserve local changes before switching. Track `origin/feature/backend-foundation`; integrate later `main` changes without rewriting published commits.
 
-After tests and audit, open a PR into `main` and obtain the owner's explicit authorization before merging. Main requires a PR and the `verify` check, with no mandatory approval from another developer. Never force-push, delete branches or rewrite published history to reorganize the project.
+The current flow is `feature/backend-foundation → dev → main`. Permanent integration branch `dev` starts at stable commit `685d7b3`; the existing feature history is preserved. After tests and audit, prepare a PR into `dev`, without automatic merges. Revalidate integration on `dev`; promoting `dev → main` requires explicit authorization. Main requires a PR and `verify`, without external approval. Dev blocks force push/deletion; CI includes dev pushes and PRs. Future features start from dev when needed. Never rewrite published history.
 
 `dependabot/**` branches are legitimate automated maintenance. Review each dependency update, compatibility, impact and CI independently. Do not consolidate, delete or merge them in bulk.
 

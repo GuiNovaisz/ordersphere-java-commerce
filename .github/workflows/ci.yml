@@ -1,7 +1,7 @@
 name: Backend CI
 on:
   push:
-    branches: [main, feature/backend-foundation]
+    branches: [main, dev, feature/backend-foundation]
   pull_request:
 permissions:
   contents: read
