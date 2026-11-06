@@ -5,7 +5,7 @@ RUN mvn -B -ntp dependency:go-offline
 COPY src ./src
 RUN mvn -B -ntp -DskipTests package
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:24-jre-alpine
 RUN addgroup -S ordersphere && adduser -S ordersphere -G ordersphere && apk add --no-cache curl
 WORKDIR /app
 COPY --from=build --chown=ordersphere:ordersphere /build/target/ordersphere-*.jar app.jar
