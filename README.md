@@ -1,5 +1,8 @@
 # OrderSphere
 
+Licença: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
+License: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
+
 [![Backend CI](https://github.com/GuiNovaisz/ordersphere-java-commerce/actions/workflows/ci.yml/badge.svg)](https://github.com/GuiNovaisz/ordersphere-java-commerce/actions/workflows/ci.yml)
 
 > 🇧🇷 **Documentação em Português (Brasil)**

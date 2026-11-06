@@ -4,6 +4,9 @@
   <parent><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-parent</artifactId><version>4.1.2</version><relativePath/></parent>
   <groupId>com.ordersphere</groupId><artifactId>ordersphere</artifactId><version>0.1.0</version>
   <name>OrderSphere</name><description>Transactional catalog, inventory and order backend</description>
+  <licenses>
+    <license><name>MIT License</name><url>https://opensource.org/license/mit/</url><distribution>repo</distribution></license>
+  </licenses>
   <properties><java.version>21</java.version><springdoc.version>3.2.0</springdoc.version></properties>
   <dependencies>
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-webmvc</artifactId></dependency>
