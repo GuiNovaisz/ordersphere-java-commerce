@@ -1,5 +1,7 @@
 # OrderSphere
 
+Auditoria atual da fundação / Current foundation audit: [resultados e prontidão / results and readiness](docs/backend-foundation-final-audit.md).
+
 Licença: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
 License: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
 
