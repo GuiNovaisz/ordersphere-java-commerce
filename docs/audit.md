@@ -2,7 +2,7 @@
 
 ## Português
 
-Auditoria executada em **6 de novembro de 2026**, Windows, JDK 25.0.5 com alvo Java 21, Maven Wrapper 3.9.12 e Docker Engine 29.9.2. **Verificações locais aprovadas; CI remoto será registrado após o push autorizado.**
+Auditoria executada em **6 de novembro de 2026**, Windows, JDK 25.0.5 com alvo Java 21, Maven Wrapper 3.9.12 e Docker Engine 29.9.2. **Verificações locais e CI remoto aprovados.** O runner Ubuntu também executou a suíte com Java 21.
 
 | Verificação | Evidência esperada | Resultado |
 | --- | --- | --- |
@@ -15,7 +15,7 @@ Auditoria executada em **6 de novembro de 2026**, Windows, JDK 25.0.5 com alvo J
 | Atomicidade e histórico | Rollback de vários itens, snapshot, cancelamentos repetidos/concorrentes, teto de reposição | PASS |
 | OpenAPI | `/v3/api-docs` e `/swagger-ui/index.html` no Compose | PASS, OpenAPI 3.1 e UI HTTP 200 |
 | Docker | Multi-stage Java21; Compose API+PG17; health checks; usuário sem root | PASS, ambos healthy, uid100 ordersphere |
-| CI remoto | URL da execução e conclusão | Pendente |
+| CI remoto | [Backend CI, código auditado 50a4afb](https://github.com/GuiNovaisz/ordersphere-java-commerce/actions/runs/42259641476) | SUCCESS: clean verify, testes reais PostgreSQL e build Docker |
 | Git | Trabalho em `feature/backend-foundation`; integração local em `main` antes do push | Commits incrementais, sem force push |
 | Credenciais | `.env` e `target/` ignorados; credenciais sintéticas da auditoria fora do repo | PASS, scan local antes do push |
 | Documentação | README PT-BR/EN, links e contratos conferidos com o código | PASS |
@@ -26,14 +26,14 @@ A combinação gerenciada usa JUnit Jupiter 6.0.3. A tentativa de forçar JUnit5
 
 ### Critério de prontidão
 
-A v0.1.0 não está aprovada enquanto build, banco, autenticação, RBAC, ownership, snapshots, atomicidade, teste concorrente, Docker e CI essenciais não tiverem evidências aprovadas. Se uma dependência de ambiente impedir execução, registrar o bloqueio e manter a release como preparada, sem afirmar prontidão.
+Build, banco, autenticação, RBAC, ownership, snapshots, atomicidade, teste concorrente, Docker e CI essenciais foram aprovados. A fundação backend está pronta para revisão de publicação da v0.1.0, respeitando as limitações documentadas. Repositório e push foram autorizados e executados; tag e GitHub Release permanecem sem publicação. Os containers exclusivos da auditoria foram encerrados; o volume foi preservado e serviços preexistentes não foram interrompidos. Secret scanning, proteção de push, alertas e atualizações de segurança Dependabot e canal privado de vulnerabilidades foram habilitados no repositório.
 
 ## English
 
-Verified on **November 6, 2026**, on Windows using JDK25.0.5 targeting Java21, Maven Wrapper3.9.12 and Docker29.9.2. **All local checks passed; remote CI evidence will follow the authorized push.**
+Verified on **November 6, 2026**, on Windows using JDK 25.0.5 targeting Java 21, Maven Wrapper 3.9.12 and Docker 29.9.2. **Local checks and [remote CI](https://github.com/GuiNovaisz/ordersphere-java-commerce/actions/runs/42259641476) passed**, including the Ubuntu runner's Java 21 build, PostgreSQL tests and Docker image.
 
 The clean build returned exit0: [5 unit tests](verification/unit-tests.txt) and [16 PostgreSQL17 integration tests](verification/integration-tests.txt), with zero failures, errors or skips. Real synchronized HTTP purchases produced one201, one409, one persisted order and zero remaining stock. Tests also verified rollback, historical snapshots, concurrent/repeated cancellation, ownership, RBAC, session/CSRF rotation and invalid input.
 
 The multi-stage Java21 Docker image runs as a non-root user. A fresh Compose environment applied Flyway V1, passed both health checks, served Swagger/OpenAPI and passed the [full smoke flow](verification/compose-smoke.json). PostgreSQL has no published host port; the API binds to loopback. An occupied audit port was replaced without interrupting the existing service. Secrets remained outside Git. JUnit Jupiter6.0.3 is retained because forcing JUnit5.14.4 was incompatible with SpringExtension; the final compatible suite passed.
 
-Release approval requires a clean build, unit and PostgreSQL integration tests, authentication, RBAC, ownership, snapshot and rollback checks, the real two-purchase concurrency test, working Docker execution and essential CI checks. Record blocked environment dependencies explicitly. Prepared release notes do not imply a released or approved version.
+The backend foundation is ready for release review within its documented limitations. Repository creation and push were authorized and completed; the tag and GitHub Release remain unpublished. Task-owned audit containers were stopped, with the volume preserved and preexisting services untouched. Repository secret scanning, push protection, Dependabot alerts/security updates and private vulnerability reporting were enabled.

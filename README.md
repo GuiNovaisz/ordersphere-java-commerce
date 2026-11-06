@@ -6,7 +6,7 @@
 >
 > 🇺🇸 **The complete English version is available immediately after the Portuguese section.**
 
-Backend de catálogo, estoque e pedidos com consistência transacional. **v0.1.0 — Backend Foundation:** implementação e evidências devem ser avaliadas pela [auditoria](docs/audit.md); notas preparadas não significam release aprovada.
+Backend de catálogo, estoque e pedidos com consistência transacional. **v0.1.0 — Backend Foundation:** 21 testes aprovados e execução Docker verificada. Consulte a [auditoria](docs/audit.md) e o [relatório de implementação](docs/implementation-report.md). As notas da release estão preparadas; a tag ainda não foi publicada.
 
 ## Sumário
 
@@ -181,7 +181,7 @@ Somente BRL; sem pagamentos, frete, impostos ou descontos. Não há frontend, mi
 <a id="overview"></a>
 ### Overview
 
-OrderSphere manages a product catalog, inventory and authenticated users' orders. Purchases capture their historical commercial values and consume inventory in one transaction. Two simultaneous buyers cannot both purchase the same remaining unit. Check the [audit](docs/audit.md) for actual validation evidence; prepared notes do not mean the release is approved.
+OrderSphere manages a product catalog, inventory and authenticated users' orders. Purchases preserve historical values and consume inventory in one transaction. Two simultaneous buyers cannot both purchase the same remaining unit. All 21 tests passed and Docker execution was verified; see the [audit](docs/audit.md) and [implementation report](docs/implementation-report.md). Release notes are prepared; the tag has not been published.
 
 <a id="purpose"></a>
 ### Purpose
