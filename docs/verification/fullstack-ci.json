@@ -1,0 +1,21 @@
+{
+  "testedCommit": "713f98bb3fdcb2154477c4796f439f72af768b39",
+  "url": "https://github.com/GuiNovaisz/ordersphere-java-commerce/actions/runs/42311349958",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "frontend",
+      "conclusion": "success"
+    },
+    {
+      "name": "verify",
+      "conclusion": "success"
+    },
+    {
+      "name": "e2e",
+      "conclusion": "success"
+    }
+  ],
+  "note": "Implementation CI. The subsequent documentation-only commit is checked separately before final delivery."
+}

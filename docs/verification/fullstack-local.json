@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-06",
+  "branch": "feature/fullstack-experience",
+  "baseline": "a5f2174c61c5661e97d9824c008effa874c3902d",
+  "backendChanged": false,
+  "backend": {
+    "failures": 0,
+    "result": "BUILD SUCCESS",
+    "unit": 5,
+    "errors": 0,
+    "integration": 17,
+    "skipped": 0
+  },
+  "frontend": {
+    "npmAuditVulnerabilities": 0,
+    "strictTypecheck": "passed",
+    "npmCi": "passed",
+    "format": "passed",
+    "failures": 0,
+    "productionBuild": "passed",
+    "lint": "passed",
+    "tests": 24,
+    "testFiles": 6
+  },
+  "e2e": {
+    "concurrency": {
+      "loserCartPreserved": true,
+      "statuses": [
+        201,
+        409
+      ],
+      "persistedOrders": 1,
+      "finalQuantity": 0
+    },
+    "axeScope": "catalog WCAG2A/AA/2.1AA in four viewports",
+    "realStack": true,
+    "axeViolations": 0,
+    "failures": 0,
+    "viewports": [
+      "1440x1000",
+      "1280x800",
+      "768x1024",
+      "390x844"
+    ],
+    "browser": "Chromium",
+    "retries": 0,
+    "tests": 12,
+    "workers": 1
+  },
+  "docker": {
+    "apiUser": "ordersphere",
+    "health": "all healthy",
+    "publishedServices": [
+      "web"
+    ],
+    "cleanStartNewVolume": "passed",
+    "services": [
+      "web",
+      "api",
+      "db"
+    ],
+    "bind": "loopback",
+    "webUser": "101",
+    "publicDeployment": false
+  },
+  "note": "Sanitized summary of executed local checks. Detailed behavioral evidence lives in source tests and the full-stack audit. CI results are recorded separately."
+}
