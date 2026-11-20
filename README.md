@@ -1,6 +1,6 @@
 # OrderSphere
 
-Full Stack Experience v0.2.0 em revisão / under review: [arquitetura frontend](docs/architecture/frontend.md) · [operação](docs/operations.md) · [auditoria](docs/fullstack-audit.md). Fundação publicada: [v0.1.1](docs/backend-foundation-final-audit.md).
+Release atual / Current release: [v0.2.0 — Full Stack Experience](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.2.0), publicada / released. [arquitetura frontend](docs/architecture/frontend.md) · [operação](docs/operations.md) · [auditoria](docs/fullstack-audit.md). Fundação publicada: [v0.1.1](docs/backend-foundation-final-audit.md).
 
 Licença: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
 License: [MIT](LICENSE) — Copyright (c) 2026 Guilherme Novais.
@@ -160,7 +160,7 @@ No Linux/macOS: `./mvnw clean verify`. O Docker precisa estar ativo para Postgre
 
 [Código de testes](src/test), [auditoria com resultados reais](docs/audit.md) e [pipeline](.github/workflows). O CI configura Java, usa cache Maven e executa `verify` com Docker no runner. Dependabot acompanha dependências; não há deploy automático. Execução remota só deve ser considerada aprovada após o workflow concluir com sucesso.
 
-Frontend: em `frontend/`, execute `npm ci`, `npm run lint`, `npm run typecheck`, `npm test` e `npm run build`. Vitest/Testing Library cobrem formulários, carrinho, erros HTTP e guards. Playwright usa a stack real descartável para CUSTOMER, ADMIN, CSRF, ownership, concorrência e layouts; [instruções e dados controlados](frontend/README.md). A CI mantém o job backend `verify` e acrescenta `frontend` e `e2e` com Chromium, Docker e artefatos visuais. Confira as evidências atuais na [auditoria full-stack](docs/fullstack-audit.md).
+Frontend: em `frontend/`, execute `npm ci`, `npm run lint`, `npm run typecheck`, `npm test` e `npm run build`. Vitest/Testing Library cobrem formulários, carrinho, erros HTTP e guards. Playwright usa a stack real descartável para CUSTOMER, ADMIN, CSRF, ownership, concorrência e layouts; [instruções e dados controlados](frontend/README.md). A CI mantém o job backend `verify` e acrescenta `frontend` e `e2e` com Chromium, Docker e artefatos visuais. Consulte as evidências da implementação na [auditoria histórica full-stack](docs/fullstack-audit.md).
 
 <a id="execucao"></a>
 ## Docker e como executar
@@ -207,14 +207,14 @@ Somente BRL; sem pagamentos, frete, impostos ou descontos. Não há microsservi�
 <a id="roadmap-pt"></a>
 ## Roadmap
 
-**v0.2.0:** implementação full-stack na feature, aguardando revisão; sem merge, tag ou release nesta missão. Próximas evoluções dependem de avaliação e necessidade observada; não há compromisso antecipado com infraestrutura distribuída.
+**v0.2.0 — Full Stack Experience:** [publicada](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.2.0) e integrada em `main` e `dev`. Próximas evoluções dependem de avaliação e necessidade observada; não há compromisso antecipado com infraestrutura distribuída.
 
 ## 🇺🇸 English
 
 <a id="fullstack-en"></a>
 ### Full-stack experience
 
-OrderSphere combines a modern full-stack experience with a transactional Java backend that keeps inventory consistent during concurrent purchases. The v0.2.0 feature adds React/TypeScript to released v0.1.1 without changing its Java contracts.
+OrderSphere combines a modern full-stack experience with a transactional Java backend that keeps inventory consistent during concurrent purchases. The released v0.2.0 adds React/TypeScript to v0.1.1 without changing its Java contracts.
 
 **CUSTOMER:** public searchable/sortable/paginated catalog, product details, persistent cart, registration/login, simulated checkout, own order history/details and cancellation. Cart totals are estimates; only product IDs and quantities reach checkout. The server determines prices and inventory. Conflicts retain cart contents and order POSTs are never retried automatically.
 
@@ -315,7 +315,7 @@ Run `.\mvnw.cmd clean verify` on Windows or `./mvnw clean verify` on Linux/macOS
 
 See [test source](src/test), [actual audit results](docs/audit.md) and [CI definitions](.github/workflows). GitHub Actions configures Java, caches Maven dependencies and runs `verify` with Docker available. Dependabot tracks dependencies. There is no automatic deployment; remote CI is approved only after a successful completed run.
 
-Inside `frontend/`, run `npm ci`, `npm run lint`, `npm run typecheck`, `npm test` and `npm run build`. Vitest/Testing Library exercise validation, cart behavior, API errors and guards. Playwright uses a disposable real stack for customer/admin/security/concurrency and responsive visual checks. CI adds `frontend` and `e2e` jobs with Chromium and visual artifacts; see the [frontend guide](frontend/README.md) and [current evidence](docs/fullstack-audit.md).
+Inside `frontend/`, run `npm ci`, `npm run lint`, `npm run typecheck`, `npm test` and `npm run build`. Vitest/Testing Library exercise validation, cart behavior, API errors and guards. Playwright uses a disposable real stack for customer/admin/security/concurrency and responsive visual checks. CI adds `frontend` and `e2e` jobs with Chromium and visual artifacts; see the [frontend guide](frontend/README.md) and [historical implementation evidence](docs/fullstack-audit.md).
 
 <a id="running"></a>
 ### Docker and running locally
@@ -352,4 +352,4 @@ BRL only; no payments, shipping, taxes, discounts, microservices, messaging or e
 <a id="roadmap-en"></a>
 ### Roadmap
 
-**v0.2.0:** full-stack implementation on the feature branch for review; no merge, tag or release in this mission. Future work requires evaluation and observed needs rather than premature distributed infrastructure.
+**v0.2.0 — Full Stack Experience:** [released](https://github.com/GuiNovaisz/ordersphere-java-commerce/releases/tag/v0.2.0) and integrated into `main` and `dev`. Future work requires evaluation and observed needs rather than premature distributed infrastructure.
